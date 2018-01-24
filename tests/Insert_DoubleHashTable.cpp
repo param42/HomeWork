@@ -13,12 +13,12 @@ SCENARIO("When you add an item, the size increases")
 
         WHEN("inserting an element")
         {
-            s.insert(42,42);
-            s.insert(33, 34);
-            s.insert(11,32);
+            dht.insert(42,42);
+            dht.insert(33, 34);
+            dht.insert(11,32);
             THEN("the number of elements is increased by the number of inserts")
             {
-                REQUIRE(s.count() == count + 3);
+                REQUIRE( dht.getSize() == count + 3);
             }
         }
     }
