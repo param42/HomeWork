@@ -3,8 +3,13 @@
 
  
 	auto LinearHashTable::hashFunc(int key)->int
-	{
-		return key % capacity;
+	{ 
+		if (key >= 0) {
+			return key%capacity;
+		}
+		else {
+			return (((key%capacity) + capacity) % capacity);
+		}
 	}
 
 
@@ -33,7 +38,7 @@
 
 		capacity *= 2;
 		HashNode *oldTable = table;
-
+		int tempSize = size;
 		table = new HashNode[capacity];
 
 		for (int i = 0; i < capacity; i++)
@@ -47,6 +52,7 @@
 				insert(oldTable[i].key, oldTable[i].value);
 			}
 		}
+		size = tempSize;
 		delete[] oldTable;
 	}
 
@@ -200,17 +206,18 @@
 		return std::make_pair(keyMin, min);
 	}
 
-	auto LinearHashTable::  print()->void
+	auto LinearHashTable::  print(std::ofstream& fout) -> void
 	{
-		 
-
-		for (int i = 0; i<capacity; i++)
+		for (int i = 0; i <capacity; i++)
 		{
-		 
-			if (table[i].info == Busy) {
-				 
+			fout << i << ") ";
+			int value = table[i].key;
+			if (table[i].info == Busy) {			
+					fout << table[i].key <<"  "
+						<<  table[i].value;
+				
 			}
-			 
+			fout << std::endl;
 		}
 	}
 
