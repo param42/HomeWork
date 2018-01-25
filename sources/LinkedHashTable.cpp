@@ -2,39 +2,48 @@
 #include "LinkedHashTable.h"
 
 
-LinkedHashTable::LinkedHashTable(int size) {
-	tableSize = size;
-	table = new HashList*[tableSize];
-	for (int i = 0; i < tableSize; i++)
+LinkedHashTable::LinkedHashTable(int _size) {
+	capacity = _size;
+	size = 0;
+	table = new HashList*[capacity];
+	for (int i = 0; i < capacity; i++)
 		table[i] = NULL;
 }
 LinkedHashTable::LinkedHashTable() {
-	tableSize = 10;
-	table = new HashList*[tableSize];
-	for (int i = 0; i < tableSize; i++)
+	capacity = 10;
+	size = 0;
+	table = new HashList*[capacity];
+	for (int i = 0; i < capacity; i++)
 		table[i] = NULL;
 }
 
-auto LinkedHashTable::get(int key)->int {
+auto LinkedHashTable::getSize() -> int
+{
+	return size;
+}
+
+auto LinkedHashTable::search(int key)->std::pair<int, int> {
 
 	int hash = HashFunc(key);
 	if (table[hash] == NULL)
-		throw std::logic_error("Key wasn't found");
+		throw std::logic_error("remove doesnt exist element");
 	else {
 		HashList *entry = table[hash];
 		while (entry != NULL && entry->getKey() != key)
 			entry = entry->getNext();
 		if (entry == NULL)
-			throw std::logic_error("Key wasn't found");
+			throw std::logic_error("remove doesnt exist element");
 		else
-			return entry->getValue();
+			return std::make_pair(entry->getKey(), entry->getValue());
 	}
 }
 
-auto LinkedHashTable::put(int key, int value)->void {
+auto LinkedHashTable::insert(int key, int value)->void {
 	int hash = HashFunc(key);
-	if (table[hash] == NULL)
+	if (table[hash] == NULL) {
 		table[hash] = new HashList(key, value);
+		size++;
+	}
 	else {
 
 		HashList *entry = table[hash];
@@ -47,6 +56,7 @@ auto LinkedHashTable::put(int key, int value)->void {
 
 		else {
 			entry->setNext(new HashList(key, value));
+			size++;
 		}
 
 	}
@@ -56,7 +66,9 @@ auto LinkedHashTable::put(int key, int value)->void {
 auto LinkedHashTable::remove(int key)->void {
 
 	int hash = HashFunc(key);
-
+	if (size == 0) {
+		throw std::logic_error("Table is empty");
+	}
 	if (table[hash] != NULL) {
 
 		HashList *prevEntry = NULL;
@@ -64,6 +76,7 @@ auto LinkedHashTable::remove(int key)->void {
 		while (entry->getNext() != NULL && entry->getKey() != key) { //проходим по связному списку
 			prevEntry = entry;
 			entry = entry->getNext();
+		 
 		}
 
 		if (entry->getKey() == key) {
@@ -72,6 +85,7 @@ auto LinkedHashTable::remove(int key)->void {
 				HashList *nextEntry = entry->getNext();
 				delete entry;
 				table[hash] = nextEntry;
+				size--;
 
 			}
 			else {
@@ -79,22 +93,26 @@ auto LinkedHashTable::remove(int key)->void {
 				HashList *next = entry->getNext();
 				delete entry;
 				prevEntry->setNext(next);
+				size--;
 
 			}
 
 		}
 
 	}
+	else {
+		throw std::logic_error("remove doesnt exist element");
+	}
 
 }
 
-auto LinkedHashTable::getMax()->int {
+auto LinkedHashTable::getMax()->std::pair<int, int> {
 
 	int max;
 	int cur = 0;
-
+	int keyMax;
 	bool isReturn = true;
-	for (int i = 0; i < tableSize; i++) {
+	for (int i = 0; i < capacity; i++) {
 		if (table[i] != NULL) {
 			max = table[i]->getValue();
 			isReturn = false;
@@ -104,7 +122,7 @@ auto LinkedHashTable::getMax()->int {
 
 
 
-	for (int i = 0; i < tableSize; i++) {
+	for (int i = 0; i < capacity; i++) {
 
 		if (table[i] != NULL) {
 			HashList *prevEntry = NULL;
@@ -117,6 +135,7 @@ auto LinkedHashTable::getMax()->int {
 				cur = prevEntry->getValue();
 				if (cur > max) {
 					max = cur;
+					keyMax = prevEntry->getKey();
 				}
 				entry = entry->getNext();
 
@@ -125,17 +144,18 @@ auto LinkedHashTable::getMax()->int {
 
 		}
 	}
-	return max;
+	return std::make_pair(keyMax, max);
 
 }
 
-auto LinkedHashTable::getMin()->int {
+auto LinkedHashTable::getMin()->std::pair<int, int> {
 
 	int min;
+	int keyMin;
 	int cur = 0;
 
 	bool isReturn = true;
-	for (int i = 0; i < tableSize; i++) {
+	for (int i = 0; i < capacity; i++) {
 		if (table[i] != NULL) {
 			min = table[i]->getValue();
 			isReturn = false;
@@ -145,13 +165,13 @@ auto LinkedHashTable::getMin()->int {
 
 
 
-	for (int i = 0; i < tableSize; i++) {
+	for (int i = 0; i < capacity; i++) {
 		if (table[i] != NULL) {
 			min = table[i]->getValue();
 		}
 	}
-	if (min == NULL) return NULL;
-	for (int i = 0; i < tableSize; i++) {
+	if (min == NULL)  std::logic_error("throw");
+	for (int i = 0; i < capacity; i++) {
 
 		if (table[i] != NULL) {
 			HashList *prevEntry = NULL;
@@ -164,6 +184,8 @@ auto LinkedHashTable::getMin()->int {
 				cur = prevEntry->getValue();
 				if (cur < min) {
 					min = cur;
+					keyMin = prevEntry->getKey();
+
 				}
 				entry = entry->getNext();
 
@@ -171,7 +193,7 @@ auto LinkedHashTable::getMin()->int {
 		 
 		}
 	}
-	return min;
+	return std::make_pair(keyMin, min);
 
 }
 
@@ -183,7 +205,7 @@ auto LinkedHashTable::print()->void {
 
 LinkedHashTable::~LinkedHashTable() {
 
-	for (int i = 0; i < tableSize; i++)
+	for (int i = 0; i < capacity; i++)
 		if (table[i] != NULL) {
 			HashList *prevEntry = NULL;
 			HashList *entry = table[i];
