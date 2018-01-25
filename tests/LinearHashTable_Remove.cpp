@@ -2,7 +2,7 @@
 #include "catch.hpp"
 
 
-SCENARIO("When you delete an item, the size decreases")
+SCENARIO("When you delete an item in LinearHashTable, the size decreases")
 {
     GIVEN("LinearHashTable and size")
     {
@@ -42,7 +42,7 @@ SCENARIO("LinearHashTable is empty => remove method throws an exception")
 }
 
 
-SCENARIO("removing element doesn't exist => remove method throws an exception")
+SCENARIO("removing element doesn't exist in LinearHashTable => remove method throws an exception")
 {
     GIVEN("LinearHashTable")
     {
