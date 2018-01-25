@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-
+#include <fstream>
 class LinearHashTable
 {
 
@@ -29,7 +29,7 @@ public:
 	auto remove(int key)->void;
 	auto getMax()->std::pair<int, int>;
 	auto getMin()->std::pair<int, int>;
-	auto print()->void;
+	auto print(std::ofstream& fout) -> void;
 	~LinearHashTable();
 };
 
