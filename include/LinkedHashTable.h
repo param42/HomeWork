@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-
+#include <fstream>
 class LinkedHashTable
 {
 	class HashList {
@@ -45,9 +45,7 @@ private:
 	HashList **table;
 	int capacity;
 	int size;
-	int HashFunc(int key) {
-		return key % capacity;
-	}
+	auto HashFunc(int key)->int;
 
 
 public:
@@ -60,8 +58,10 @@ public:
 		auto remove(int key)->void;
 		auto getMax()->std::pair<int, int>;
 		auto getMin()->std::pair<int, int>;
-		auto print()->void;
+		auto print(std::ofstream& fout) -> void;
 
 		~LinkedHashTable();
 };
+
+
 
