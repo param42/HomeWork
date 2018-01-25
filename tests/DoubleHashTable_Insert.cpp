@@ -2,7 +2,7 @@
 #include "catch.hpp"
 
 
-SCENARIO("When you add an item, the size increases")
+SCENARIO("When you add an item in DoubleHashTable, the size increases")
 {
     GIVEN("DoubleHashTable ")
     {
