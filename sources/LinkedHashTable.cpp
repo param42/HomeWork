@@ -1,4 +1,4 @@
- 
+
 #include "LinkedHashTable.h"
 
 
@@ -8,6 +8,15 @@ LinkedHashTable::LinkedHashTable(int _size) {
 	table = new HashList*[capacity];
 	for (int i = 0; i < capacity; i++)
 		table[i] = NULL;
+}
+auto LinkedHashTable::HashFunc(int key) -> int
+{
+	if (key >= 0) {
+		return key%capacity;
+	}
+	else {
+		return (((key%capacity)+capacity)%capacity);
+	}
 }
 LinkedHashTable::LinkedHashTable() {
 	capacity = 10;
@@ -154,7 +163,7 @@ auto LinkedHashTable::getMax()->std::pair<int, int> {
 
 auto LinkedHashTable::getMin()->std::pair<int, int> {
 
-	int min;
+	int min=0;
 	int keyMin;
 	int cur = 0;
 
@@ -202,9 +211,27 @@ auto LinkedHashTable::getMin()->std::pair<int, int> {
 
 }
 
-auto LinkedHashTable::print()->void {
+auto LinkedHashTable::print(std::ofstream& fout) -> void {
 
-	
+	for (int i = 0; i < capacity; i++) {
+		fout << i << ") ";
+		if (table[i] != NULL) {
+			HashList *prevEntry = NULL;
+			HashList *entry = table[i];
+
+			while (entry != NULL) {
+				prevEntry = entry;
+				fout << prevEntry->getKey() <<" "
+					<<  prevEntry->getValue() << "      ";
+				entry = entry->getNext();
+
+			}
+		 
+
+		}
+		fout << std::endl;
+	}	 
+	 
 	
 }
 
