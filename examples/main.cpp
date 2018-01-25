@@ -1,6 +1,4 @@
 
-#include "stdafx.h"
-
 #include "LinkedHashTable.h"
 #include "DoubleHashTable.h"
 #include "LinearHashTable.h"
