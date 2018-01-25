@@ -1,0 +1,101 @@
+DoubleHashTable
+add 41 -1
+add -68 -28
+add -73 -37
+add -60 65
+add -26 -51
+add -74 -42
+add -52 -13
+add 75 78
+add -93 2
+add 6 -54
+add -35 -55
+add -57 -82
+add -36 -63
+add -95 58
+add 66 -24
+add -65 46
+add -34 73
+add 44 -53
+add 47 28
+add -38 5
+add -11 72
+add 16 96
+add 64 39
+add 32 77
+add -14 59
+add 11 -88
+add -98 -30
+add -79 -66
+add 100 -4
+add 49 26
+add -22 4
+add -5 3
+add 51 10
+add 19 31
+add 0 18
+add 48 76
+add -7 36
+add -39 88
+add -81 89
+add 69 -62
+add 82 -87
+add -8 -58
+add -75 55
+add -15 80
+add -29 24
+add 67 81
+add -70 -18
+add -45 92
+add -25 -71
+add 54 13
+delete 41
+delete -68
+delete -73
+delete -60
+delete -26
+delete -74
+delete -52
+delete 75
+delete -93
+delete 6
+delete -35
+delete -57
+delete -36
+delete -95
+delete 66
+delete -65
+delete -34
+delete 44
+delete 47
+delete -38
+delete -11
+delete 16
+delete 64
+delete 32
+delete -14
+delete 11
+delete -98
+delete -79
+delete 100
+delete 49
+delete -22
+delete -5
+delete 51
+delete 19
+delete 0
+delete 48
+delete -7
+delete -39
+delete -81
+delete 69
+delete 82
+delete -8
+delete -75
+delete -15
+delete -29
+delete 67
+delete -70
+delete -45
+delete -25
+delete 54
