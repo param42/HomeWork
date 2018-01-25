@@ -1,4 +1,4 @@
-
+#include "stdafx.h"
 #include "LinkedHashTable.h"
 
 
@@ -67,7 +67,7 @@ auto LinkedHashTable::remove(int key)->void {
 
 	int hash = HashFunc(key);
 	if (size == 0) {
-		throw std::logic_error("Table is empty");
+		 throw std::logic_error("Table is empty");
 	}
 	if (table[hash] != NULL) {
 
@@ -110,17 +110,18 @@ auto LinkedHashTable::getMax()->std::pair<int, int> {
 
 	int max;
 	int cur = 0;
-	int keyMax;
+	int keyMax=0;
 	bool isReturn = true;
 	for (int i = 0; i < capacity; i++) {
 		if (table[i] != NULL) {
 			max = table[i]->getValue();
+			keyMax = table[i]->getKey();
 			isReturn = false;
 		}
 	}
 	if (isReturn)  throw std::logic_error("no table!");
 
-
+	
 
 	for (int i = 0; i < capacity; i++) {
 
@@ -136,6 +137,7 @@ auto LinkedHashTable::getMax()->std::pair<int, int> {
 				if (cur > max) {
 					max = cur;
 					keyMax = prevEntry->getKey();
+					std::cout <<" ===== " <<prevEntry->getKey();
 				}
 				entry = entry->getNext();
 
@@ -144,6 +146,7 @@ auto LinkedHashTable::getMax()->std::pair<int, int> {
 
 		}
 	}
+	 
 	return std::make_pair(keyMax, max);
 
 }
@@ -158,6 +161,7 @@ auto LinkedHashTable::getMin()->std::pair<int, int> {
 	for (int i = 0; i < capacity; i++) {
 		if (table[i] != NULL) {
 			min = table[i]->getValue();
+			keyMin = table[i]->getKey();
 			isReturn = false;
 		}
 	}
