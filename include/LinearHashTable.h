@@ -22,12 +22,13 @@ private:
 	 
 public:
 	LinearHashTable();
+	auto getSize()->int;
 	auto reHash()->void;
-	auto get(int key)->int;
-	auto put(int key, int value)->void;
+	auto search(int key)->std::pair<int, int>;
+	auto insert(int key, int value)->void;
 	auto remove(int key)->void;
-	auto getMax()->int;
-	auto getMin()->int;
+	auto getMax()->std::pair<int, int>;
+	auto getMin()->std::pair<int, int>;
 	auto print()->void;
 	~LinearHashTable();
 };
