@@ -1,19 +1,36 @@
-
 #include "DoubleHashTable.h"
-
-
 auto DoubleHashTable::HashFunc1(int key)->int {
-	return key % capacity;
+	if (key >= 0) {
+		return key % capacity;
+	}
+	else {
+		return (((key%capacity) + capacity) % capacity);
+	}
+	 
 }
 auto DoubleHashTable::HashFunc2(int key)->int {
-	return (key * capacity - 1) % capacity;
+
+	int result;
+	if (key >= 0) {
+		result=(key+1)%capacity;
+	}
+	else {
+		result=((((key+1)%capacity) + capacity) % capacity);
+	}
+	if (result % 2 == 0) {
+		result++;
+	}
+	if (result == 0) {
+		result++;
+	}
+	return result;
 }
 
  
 DoubleHashTable::DoubleHashTable()
 {
 
-	capacity = 10;
+	capacity =8;
 	size = 0;
 	table = new HashNode[capacity];
 
@@ -29,7 +46,7 @@ auto DoubleHashTable::reHash()->void {
 
 	capacity *= 2;
 	HashNode *oldTable = table;
-
+	int tempSize = size;
 	table = new HashNode[capacity];
 
 	for (int i = 0; i < capacity; i++)
@@ -43,6 +60,7 @@ auto DoubleHashTable::reHash()->void {
 			insert(oldTable[i].key, oldTable[i].value);
 		}
 	}
+	size = tempSize;
 	delete[] oldTable;
 }
 
@@ -62,6 +80,7 @@ auto DoubleHashTable::insert(int key, int value)->void
 	int stepSize = HashFunc2(key);
 
 	bool isFind = false;
+	int i = 1;
 	do
 	{
 
@@ -73,8 +92,9 @@ auto DoubleHashTable::insert(int key, int value)->void
 
 		}
 		if (!isFind) {
-			hashIndex += stepSize;
+			hashIndex += i*stepSize;
 			hashIndex %= capacity;
+			i++;
 		}
 
 	} while (!isFind);
@@ -150,6 +170,8 @@ auto DoubleHashTable::getMax()->std::pair<int, int> {
 	{
 		if (table[i].info == Busy) {
 			max = table[i].value;
+			keyMax = table[i].key;
+
 			isfindfirstBusy = true;
 		}
 		i++;
@@ -185,6 +207,7 @@ auto DoubleHashTable::getMin()->std::pair<int, int> {
 	{
 		if (table[i].info == Busy) {
 			min = table[i].value;
+			keyMin = table[i].key;
 			isfindfirstBusy = true;
 		}
 		i++;
@@ -206,17 +229,19 @@ auto DoubleHashTable::getMin()->std::pair<int, int> {
 	return std::make_pair(keyMin, min);
 }
 
-auto DoubleHashTable::print()->void
+auto DoubleHashTable::print(std::ofstream& fout) -> void
 {
 	 
-
-	for (int i = 0; i<capacity; i++)
+	for (int i = 0; i <capacity; i++)
 	{
-	 
+		fout << i << ") ";
+		int value = table[i].key;
 		if (table[i].info == Busy) {
-			 
+			fout << table[i].key << "  "
+				<< table[i].value;
+
 		}
-	 
+		fout << std::endl;
 	}
 }
 
