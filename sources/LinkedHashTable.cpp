@@ -175,7 +175,7 @@ auto LinkedHashTable::getMin()->std::pair<int, int> {
 			min = table[i]->getValue();
 		}
 	}
-	if (min == NULL)  std::logic_error("throw");
+	 
 	for (int i = 0; i < capacity; i++) {
 
 		if (table[i] != NULL) {
