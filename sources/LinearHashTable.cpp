@@ -11,7 +11,7 @@
 
 	 LinearHashTable::LinearHashTable()
 	{
-		capacity = 3;//////////////////////////
+		capacity = 10;
 		size = 0;
 		table = new HashNode[capacity];
 
@@ -23,6 +23,11 @@
 
 
 	}
+
+	 auto LinearHashTable::getSize() -> int
+	 {
+		 return size;
+	 }
 
 	auto LinearHashTable::reHash()->void {
 
@@ -39,13 +44,13 @@
 		for (int i = 0; i < size; i++)
 		{
 			if (oldTable[i].info == Busy) {
-				put(oldTable[i].key, oldTable[i].value);
+				insert(oldTable[i].key, oldTable[i].value);
 			}
 		}
 		delete[] oldTable;
 	}
 
-	 auto LinearHashTable::put(int key, int value)->void
+	 auto LinearHashTable::insert(int key, int value)->void
 	{
 	 
 		if (size == capacity) {
@@ -80,6 +85,9 @@
 
 	 auto LinearHashTable::remove(int key)->void
 	{
+		 if (size == 0) {
+			 throw std::logic_error("Table is empty");
+		 }
 		int hashIndex = hashFunc(key);
 		int firstIndex = hashIndex;
 		do
@@ -95,15 +103,16 @@
 			hashIndex %= capacity;
 			if (firstIndex == hashIndex) {
 			 
-				return; 
+				throw std::logic_error("remove doesnt exist element");
 			}
 
 		} while (true);
 
 	}
 
-	 auto LinearHashTable::get(int key)->int
+	 auto LinearHashTable::search(int key)->std::pair<int, int>
 	{
+
 		int hashIndex = hashFunc(key);
 		int firstIndex = hashIndex;
 
@@ -111,24 +120,25 @@
 		{
 
 			if (table[hashIndex].info == Busy && table[hashIndex].key == key) {
-				return table[hashIndex].value;
+				return std::make_pair(table[hashIndex].key, table[hashIndex].value);
 			}
 			hashIndex++;
 			hashIndex %= capacity;
 			if (firstIndex == hashIndex) {
-				throw std::logic_error("Key wasn't found");
+				throw std::logic_error("get doesnt exist element");
 			}
 
 		} while (true);
 
 	}
 
-	 auto LinearHashTable::getMax()->int {
+	 auto LinearHashTable::getMax()->std::pair<int, int> {
 		if (size == 0) {
-			return 0; // throw
+			throw std::logic_error("Table is empty");
 		}
 
 		int max;
+		int keyMax;
 		bool isfindfirstBusy = false;
 		int i = 0;
 		do
@@ -139,7 +149,7 @@
 			}
 			i++;
 			if (i > capacity) {
-				return 0; // throw 
+				throw std::logic_error("key not find");
 			}
 		} while (!isfindfirstBusy);
 
@@ -148,19 +158,21 @@
 			if (table[i].info == Busy) {
 				if (table[i].value> max) {
 					max = table[i].value;
+					keyMax = table[i].key;
 				}
 			}
 		}
 
-		return max;
-	}
+		return std::make_pair(keyMax, max);
+	 }
 
-	 auto LinearHashTable::getMin()->int {
+	 auto LinearHashTable::getMin()->std::pair<int, int> {
 		if (size == 0) {
-			return 0; // throw
+			throw std::logic_error("Table is empty");
 		}
 
 		int min;
+		int keyMin;
 		bool isfindfirstBusy = false;
 		int i = 0;
 		do
@@ -171,7 +183,7 @@
 			}
 			i++;
 			if (i > capacity) {
-				return 0; // throw 
+				throw std::logic_error("key not find");
 			}
 		} while (!isfindfirstBusy);
 
@@ -180,11 +192,12 @@
 			if (table[i].info == Busy) {
 				if (table[i].value < min) {
 					min = table[i].value;
+					keyMin = table[i].key;
 				}
 			}
 		}
 
-		return min;
+		return std::make_pair(keyMin, min);
 	}
 
 	auto LinearHashTable::  print()->void
