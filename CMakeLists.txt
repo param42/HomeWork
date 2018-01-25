@@ -7,24 +7,4 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/)
 
 set(SOURCE_FILES include/DoubleHashTable.h sources/DoubleHashTable.cpp include/LinearHashTable.h sources/LinearHashTable.cpp include/LinkedHashTable.h sources/LinkedHashTable.cpp )
 add_executable(Examples ${SOURCE_FILES} examples/main.cpp)
-add_executable(Tests ${SOURCE_FILES} tests/catch.hpp tests/main.cpp 
-
-tests/DoubleHashTable_Search.cpp 
-tests/DoubleHashTable_Remove.cpp 
-tests/DoubleHashTable_Insert.cpp 
-tests/DoubleHashTable_FindMaxMin.cpp 
-
-tests/LinkedHashTable_Search.cpp 
-tests/LinkedHashTable_Remove.cpp 
-tests/LinkedHashTable_Insert.cpp 
-tests/LinkedHashTable_FindMaxMin.cpp 
-
-tests/LinearHashTable_Search.cpp 
-tests/LinearHashTable_Remove.cpp 
-tests/LinearHashTable_Insert.cpp 
-tests/LinearHashTable_FindMaxMin.cpp 
-
-
-
-
-)
+add_executable(Tests ${SOURCE_FILES} tests/catch.hpp tests/main.cpp tests/DoubleHashTable_Search.cpp tests/DoubleHashTable_Remove.cpp tests/DoubleHashTable_Insert.cpp tests/DoubleHashTable_FindMaxMin.cpp tests/LinkedHashTable_Search.cpp tests/LinkedHashTable_Remove.cpp tests/LinkedHashTable_Insert.cpp tests/LinkedHashTable_FindMaxMin.cpp tests/LinearHashTable_Search.cpp tests/LinearHashTable_Remove.cpp tests/LinearHashTable_Insert.cpp tests/LinearHashTable_FindMaxMin.cpp )
