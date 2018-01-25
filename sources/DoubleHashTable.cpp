@@ -40,13 +40,18 @@ auto DoubleHashTable::reHash()->void {
 	for (int i = 0; i < size; i++)
 	{
 		if (oldTable[i].info == Busy) {
-			put(oldTable[i].key, oldTable[i].value);
+			insert(oldTable[i].key, oldTable[i].value);
 		}
 	}
 	delete[] oldTable;
 }
 
-auto DoubleHashTable::put(int key, int value)->void
+auto DoubleHashTable::getSize() -> int
+{
+	return size;
+}
+
+auto DoubleHashTable::insert(int key, int value)->void
 {
 
 	if (size == capacity) {
@@ -83,6 +88,10 @@ auto DoubleHashTable::put(int key, int value)->void
 
 auto DoubleHashTable::remove(int key)->void
 {
+	if (size == 0) {
+		throw std::logic_error("Table is empty");
+	}
+
 	int hashIndex = HashFunc1(key);
 	int stepSize = HashFunc2(key);
 	int firstIndex = hashIndex;
@@ -99,14 +108,14 @@ auto DoubleHashTable::remove(int key)->void
 		hashIndex %= capacity;
 		if (firstIndex == hashIndex) {
 			 
-			return;//  throw std::logic_error("Key wasn't found");
+			 throw std::logic_error("remove doesnt exist element");
 		}
 
 	} while (true);
 
 }
 
-auto DoubleHashTable::get(int key)->int
+auto DoubleHashTable::search(int key)->std::pair<int, int>
 {
 	int hashIndex = HashFunc1(key);
 	int stepSize = HashFunc2(key);
@@ -116,7 +125,7 @@ auto DoubleHashTable::get(int key)->int
 	{
 
 		if (table[hashIndex].info == Busy && table[hashIndex].key == key) {
-			return table[hashIndex].value;
+			return std::make_pair(table[hashIndex].key, table[hashIndex].value);
 		}
 		hashIndex += stepSize;
 		hashIndex %= capacity;
@@ -128,12 +137,13 @@ auto DoubleHashTable::get(int key)->int
 
 }
 
-auto DoubleHashTable::getMax()->int {
+auto DoubleHashTable::getMax()->std::pair<int, int> {
 	if (size == 0) {
-		return 0; // throw
+		throw std::logic_error("Table is empty");
 	}
 
 	int max;
+	int keyMax;
 	bool isfindfirstBusy = false;
 	int i = 0;
 	do
@@ -144,7 +154,7 @@ auto DoubleHashTable::getMax()->int {
 		}
 		i++;
 		if (i > capacity) {
-			return 0; // throw 
+			throw std::logic_error("key not find");
 		}
 	} while (!isfindfirstBusy);
 
@@ -153,19 +163,22 @@ auto DoubleHashTable::getMax()->int {
 		if (table[i].info == Busy) {
 			if (table[i].value> max) {
 				max = table[i].value;
+				keyMax = table[i].key;
 			}
 		}
 	}
 
-	return max;
+	return std::make_pair(keyMax, max);
 }
 
-auto DoubleHashTable::getMin()->int {
+auto DoubleHashTable::getMin()->std::pair<int, int> {
 	if (size == 0) {
-		return 0; // throw
+		throw std::logic_error("Table is empty");
 	}
 
 	int min;
+	int keyMin;
+
 	bool isfindfirstBusy = false;
 	int i = 0;
 	do
@@ -176,7 +189,7 @@ auto DoubleHashTable::getMin()->int {
 		}
 		i++;
 		if (i > capacity) {
-			return 0; // throw 
+			throw std::logic_error("key not find");
 		}
 	} while (!isfindfirstBusy);
 
@@ -185,11 +198,12 @@ auto DoubleHashTable::getMin()->int {
 		if (table[i].info == Busy) {
 			if (table[i].value < min) {
 				min = table[i].value;
+				keyMin = table[i].key;
 			}
 		}
 	}
 
-	return min;
+	return std::make_pair(keyMin, min);
 }
 
 auto DoubleHashTable::print()->void
