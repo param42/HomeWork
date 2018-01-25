@@ -1,3 +1,4 @@
+ 
 #include "LinkedHashTable.h"
 
 
@@ -96,7 +97,7 @@ auto LinkedHashTable::remove(int key)->void {
 
 			}
 
-		}
+		}throw std::logic_error("remove doesnt exist element");
 
 	}
 	else {
