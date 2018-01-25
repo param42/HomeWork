@@ -43,10 +43,10 @@ class LinkedHashTable
 	};
 private:
 	HashList **table;
-	int tableSize;
-
+	int capacity;
+	int size;
 	int HashFunc(int key) {
-		return key % tableSize;
+		return key % capacity;
 	}
 
 
@@ -54,11 +54,12 @@ public:
 		LinkedHashTable();
 		LinkedHashTable(int size);
 
-		auto get(int key)->int;
-		auto put(int key, int value)->void;
+		auto getSize()->int;
+		auto search(int key)->std::pair<int, int>;
+		auto insert(int key, int value)->void;
 		auto remove(int key)->void;
-		auto getMax()->int;
-		auto getMin()->int;
+		auto getMax()->std::pair<int, int>;
+		auto getMin()->std::pair<int, int>;
 		auto print()->void;
 
 		~LinkedHashTable();
