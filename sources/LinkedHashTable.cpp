@@ -86,6 +86,7 @@ auto LinkedHashTable::remove(int key)->void {
 				delete entry;
 				table[hash] = nextEntry;
 				size--;
+				return;
 
 			}
 			else {
@@ -94,7 +95,7 @@ auto LinkedHashTable::remove(int key)->void {
 				delete entry;
 				prevEntry->setNext(next);
 				size--;
-
+				return;
 			}
 
 		}throw std::logic_error("remove doesnt exist element");
