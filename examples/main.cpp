@@ -216,46 +216,24 @@ int main(int argc, char* argv[]) {
 			max_result += max_time;
 		}
 
-		//для тестов x_001.dat
+		
 		if (counter_add && !counter_del && !counter_search && !counter_min && !counter_max)
 			fout << std::endl << "Insert time: " << add_result << "µs\n";
 
-		//для тестов x_002.dat
+		
 		if (counter_add && counter_del && !counter_search && !counter_min && !counter_max)
 			fout << std::endl << "Delete time: " << del_result << "µs\n";
 
-		//для тестов x_003.dat
+		
 		if (counter_add && !counter_del && counter_search && !counter_min && !counter_max)
 			fout << std::endl << "Search time: " << search_result << "µs\n";
 
-		//для тестов x_004.dat
+		
 		if (counter_add && !counter_del && !counter_search && counter_min && counter_max) {
 			result_time = min_result + max_result;
 			fout << std::endl << "Min and Max time: " << result_time << "ns\n";
 		}
 
-		//для тестов x_005.dat
-		if (counter_add && !counter_del && counter_search && counter_min && counter_max) {
-			result_time = add_result + min_result + max_result + search_result;
-			fout << std::endl << "Result time: " << result_time << "µs\n";
-		}
-
-		//для тестов x_006.dat
-		if (counter_add && counter_del && !counter_search && counter_min && counter_max) {
-			result_time = add_result + min_result + max_result + del_result;
-			fout << std::endl << "Result time: " << result_time << "µs\n";
-		}
-
-		//для тестов x_007.dat
-		if (counter_add && counter_del && counter_search && counter_min && counter_max) {
-			result_time = add_result + min_result + max_result + del_result + search_result;
-			fout << std::endl << "Result time: " << result_time << "µs\n";
-		}
-		//для тестов x_008.dat
-		if (counter_add && counter_del && counter_search && !counter_min && !counter_max) {
-			result_time = add_result + del_result;
-			fout << std::endl << "Result time: " << result_time << "µs\n";
-		}
 
 		fin.close();
 		fout.close();
